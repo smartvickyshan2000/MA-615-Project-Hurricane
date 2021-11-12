@@ -55,7 +55,7 @@ Dolly_rain_precip <- left_join(Dolly_county, Dolly_rain_precip, by=c("region", "
 # Delete NA's
 Dolly_rain_precip <- filter(Dolly_rain_precip, !is.na(`rainfall`))
 
-# Dolly-2008 plot using ggplot2
+# Dolly-2008 rainfall plot using ggplot2
 ggplot() +
   geom_polygon(Dolly_rain_precip,mapping=aes(x=long, y=lat, group=group, fill=`rainfall`),color = "white") + 
   scale_fill_brewer(palette="Blues")+
@@ -69,26 +69,3 @@ ggplot() +
     axis.title = element_blank(),
     plot.title = element_text(hjust = 0.5,face = "bold")
   )
-
-# Convert the data frames into sp
-M=st_as_sf(map("county",plot=F,fill=T))
-colnames(county.fips)[2]=colnames(M)[1]
-M=left_join(M,county.fips,"ID")
-
-Dolly_ht_sp <- cbind(Dolly_ht$longitude,Dolly_ht$latitude)%>%
-  Line()%>%Lines(ID="Dolly-2008")%>%
-  list()%>%SpatialLines()
-Dolly_rain_sp <- left_join(M, Dolly_rain_precip, "fips")
-Dolly_rain_sp <- filter(Dolly_rain_sp, !is.na(Dolly_rain_sp$precip))
-
-# Draw graphs
-Dolly_pal <- colorFactor(palette="Blues", domain=Dolly_rain_sp$`rainfall`)
-drawing_Dolly <- leaflet() %>%
-  addTiles() %>%
-  fitBounds(lng1=-67.00742, lat1=47.48101,
-            lng2=-106.6504, lat2=25.12993) %>%
-  addPolygons(data=Dolly_rain_sp, 
-              stroke=FALSE, smoothFactor=0.2, fillOpacity=1,
-              color=~Dolly_pal(`rainfall`)) %>%
-  addPolylines(data=Dolly_rain_sp, weight=0.3, color="lightgrey") %>%
-  addPolylines(data=Dolly_ht_sp, weight=1.5, color="darkred") 

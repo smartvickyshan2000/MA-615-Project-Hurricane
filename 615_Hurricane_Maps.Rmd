@@ -1,3 +1,15 @@
+---
+title: "615_Hurricane_Maps"
+author: "Wuji Shan"
+date: "11/14/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
 library(tidyverse)
 library(maps)
 library(sp)
@@ -14,12 +26,16 @@ library(hurricaneexposure)
 data("hurr_tracks")
 head(hurr_tracks)
 #View(hurr_tracks)
+```
 
-######################### get the map of rainfall for Dolly-2008
+## MAP 1: Get the map of rainfall for Dolly-2008
+```{r}
 Dolly_ht <- select(filter(as.data.frame(hurr_tracks), storm_id == "Dolly-2008"), -c(storm_id, usa_atcf_id, wind))
 Dolly_rain <- select(filter(as.data.frame(rain), storm_id=="Dolly-2008"), -c(storm_id, usa_atcf_id))
+```
 
-# add up precipitation in each county
+# Add up precipitation in each county
+```{r}
 Dolly_rain_precip <- aggregate(precip~fips, Dolly_rain, sum)
 Dolly_rain_precip$rainfall <- rep(NA, nrow(Dolly_rain_precip))
 
@@ -38,8 +54,10 @@ Dolly_rain_precip$`rainfall` <-
          labels=c("[0,25]","(25,50]", "(50,75]", 
                   "(75,100]", "(100,125]","(125,150]",
                   "(150,175]","(175,200]","(200,207]"), ordered=TRUE)
+```
 
 # Turn fips into region(state) and subregion(county) columns
+```{r}
 data(county.fips)
 Dolly_rain_precip$fips <- as.double(Dolly_rain_precip$fips)
 Dolly_rain_precip <- left_join(Dolly_rain_precip, county.fips, by="fips")
@@ -55,8 +73,10 @@ Dolly_rain_precip <- left_join(Dolly_county, Dolly_rain_precip, by=c("region", "
 
 # Delete NA's
 Dolly_rain_precip <- filter(Dolly_rain_precip, !is.na(`rainfall`))
+```
 
 # Dolly-2008 rainfall plot using ggplot2
+```{r}
 ggplot() +
   geom_polygon(Dolly_rain_precip,mapping=aes(x=long, y=lat, group=group, fill=`rainfall`),color = "white") + 
   scale_fill_brewer(palette="Blues")+
@@ -70,13 +90,16 @@ ggplot() +
     axis.title = element_blank(),
     plot.title = element_text(hjust = 0.5,face = "bold")
   )
+```
 
-######################### get the map of wind speed for Dolly-2008
-# use ggplot
+## MAP 2: Get the map of wind speed for Dolly-2008
+```{r}
 Dolly_ht2 <- select(filter(as.data.frame(hurr_tracks), storm_id == "Dolly-2008"), -c(storm_id, usa_atcf_id))
 Dolly_wind <- select(filter(as.data.frame(storm_winds), storm_id=="Dolly-2008"), -c(storm_id, usa_atcf_id, gust_dur, sust_dur))
+```
 
-# add up wind speed in each county
+# Add up wind speed in each county
+```{r}
 Dolly_wind_speed <- aggregate(vmax_gust ~ fips, Dolly_wind, sum)
 Dolly_wind_speed$wind_speed <- rep(NA, nrow(Dolly_wind_speed))
 
@@ -94,8 +117,10 @@ Dolly_wind_speed$`wind_speed` <-
          labels=c("[0,15]","(15,20]", "(20,25]", 
                   "(25,30]", "(30,35]","(35,40]",
                   "(40,45]","(45,49.9]"), ordered=TRUE)
+```
 
 # Turn fips into region(state) and subregion(county) columns
+```{r}
 data(county.fips)
 Dolly_wind_speed$fips <- as.double(Dolly_wind_speed$fips)
 Dolly_wind_speed <- left_join(Dolly_wind_speed, county.fips, by="fips")
@@ -111,8 +136,10 @@ Dolly_wind_speed <- left_join(Dolly_county_wind, Dolly_wind_speed, by=c("region"
 
 # Delete NA's
 Dolly_wind_speed <- filter(Dolly_wind_speed, !is.na(`wind_speed`))
+```
 
-# Dolly-2008 wind_speed plot using ggplot2
+# Dolly-2008 wind speed plot using ggplot2
+```{r}
 ggplot() +
   geom_polygon(Dolly_wind_speed,mapping=aes(x=long, y=lat, group=group, fill=`wind_speed`),color = "white") + 
   scale_fill_brewer(palette="Reds")+
@@ -126,11 +153,15 @@ ggplot() +
     axis.title = element_blank(),
     plot.title = element_text(hjust = 0.5,face = "bold")
   )
+```
 
-######################### get the map of distance for Dolly-2008
-# use ggplot
+## MAP 3: Get the map of distance for Dolly-2008
+```{r}
 Dolly_distance <- select(filter(as.data.frame(closest_dist), storm_id=="Dolly-2008"), -c(storm_id, usa_atcf_id))
-# add up distance in each county
+```
+
+# Add up distance in each county
+```{r}
 Dolly_distance <- aggregate(storm_dist ~ fips, Dolly_distance, sum)
 Dolly_distance$distance <- rep(NA, nrow(Dolly_distance))
 
@@ -147,8 +178,10 @@ Dolly_distance$`distance` <-
          labels=c("[0,500]","(500,1000]", "(1000,1500]", 
                   "(1500,2000]", "(2000,2500]","(2500,3000]",
                   "(3000,3350]"), ordered=TRUE)
+```
 
 # Turn fips into region(state) and subregion(county) columns
+```{r}
 data(county.fips)
 Dolly_distance$fips <- as.double(Dolly_distance$fips)
 Dolly_distance <- left_join(Dolly_distance, county.fips, by="fips")
@@ -164,8 +197,10 @@ Dolly_distance <- left_join(Dolly_county_distance, Dolly_distance, by=c("region"
 
 # Delete NA's
 Dolly_distance <- filter(Dolly_distance, !is.na(`distance`))
+```
 
 # Dolly-2008 distance plot using ggplot2
+```{r}
 ggplot() +
   geom_polygon(Dolly_distance,mapping=aes(x=long, y=lat, group=group, fill=`distance`),color = "white") + 
   scale_fill_brewer(palette="Greens")+
@@ -179,4 +214,10 @@ ggplot() +
     axis.title = element_blank(),
     plot.title = element_text(hjust = 0.5,face = "bold")
   )
+```
+
+
+
+
+
 

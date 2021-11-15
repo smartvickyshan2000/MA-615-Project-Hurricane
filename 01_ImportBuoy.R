@@ -112,7 +112,11 @@ library(magrittr)
                                                                       TIDE_MEAN  = mean(TIDE_NUM))
   
   #Subset down the full buoy data to just the 4 time points that are recorded in the hurr_tracks data
-    BUOYS_6HOUR_SNAPSHOT <- BUOYS_DF %>% filter(HOUR == 6 | HOUR == 12 | HOUR == 18 | HOUR == 00)
-  
+   # Remove buoys that follow a weird reporting schedule
+    BUOYS_6HOUR_SNAPSHOT <- BUOYS_DF %>% filter(HOUR == 6 | HOUR == 12 | HOUR == 18 | HOUR == 00) %>% filter(BUOY_ID !="mqtt2" & BUOY_ID != "ptit2" & BUOY_ID != "rsjt2" & BUOY_ID != "42045")
+    
+    
     #Confirm we have the correct month, day,hour combination
     table(BUOYS_6HOUR_SNAPSHOT$MM,BUOYS_6HOUR_SNAPSHOT$DAY,BUOYS_6HOUR_SNAPSHOT$HOUR )
+    
+    table(BUOYS_6HOUR_SNAPSHOT$BUOY_ID)

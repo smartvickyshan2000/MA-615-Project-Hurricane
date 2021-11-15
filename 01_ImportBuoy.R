@@ -66,8 +66,8 @@ library(magrittr)
     BUOYS_DF$VIS_NUM  = as.numeric(BUOYS_DF$VIS)
     BUOYS_DF$TIDE_NUM = as.numeric(BUOYS_DF$TIDE)
 
-  #Dolly took place between July 20 and July 25. Will subset down to those dates below;
-    BUOYS_DF %<>% filter(DAY >19 & DAY <26)
+  #Dolly took place between July 20 and July 27. Will subset down to those dates below;
+    BUOYS_DF %<>% filter(DAY >19 & DAY <28)
 
     #Confirm we have the correct days
     table(BUOYS_DF$MM,BUOYS_DF$DAY)
@@ -83,33 +83,33 @@ library(magrittr)
                                       ifelse(BUOYS_DF$HOUR>12 & BUOYS_DF$HOUR<=18,3,4)))
   
   #Create data drame with total and average values for each bouy by "quarter" of the day
-  BUOYS_6HOUR_SUMMARY <- BUOYS_DF %>% 
-    group_by(BUOY_ID,MM,DD,BUOYS_QTR) %>% summarise(WDIR_SUM   = sum(WDIR_NUM),
-                                                                      WSPD_SUM   = sum(WSPD_NUM),
-                                                                      GST_SUM    = sum(GST_NUM), 
-                                                                      WVHT_SUM   = sum(WVHT_NUM),
-                                                                      DPD_SUM    = sum(DPD_NUM), 
-                                                                      APD_SUM    = sum(APD_NUM), 
-                                                                      MWD_SUM    = sum(MWD_NUM), 
-                                                                      PRES_SUM   = sum(PRES_NUM),
-                                                                      ATMP_SUM   = sum(ATMP_NUM),
-                                                                      WTMP_SUM   = sum(WTMP_NUM),
-                                                                      DEWP_SUM   = sum(DEWP_NUM),
-                                                                      VIS_SUM    = sum(VIS_NUM), 
-                                                                      TIDE_NUM   = sum(TIDE_NUM),
-                                                                      WDIR_MEAN  = mean(WDIR_NUM),
-                                                                      WSPD_MEAN  = mean(WSPD_NUM),
-                                                                      GST_MEAN   = mean(GST_NUM), 
-                                                                      WVHT_MEAN  = mean(WVHT_NUM),
-                                                                      DPD_MEAN   = mean(DPD_NUM), 
-                                                                      APD_MEAN   = mean(APD_NUM), 
-                                                                      MWD_MEAN   = mean(MWD_NUM), 
-                                                                      PRES_MEAN  = mean(PRES_NUM),
-                                                                      ATMP_MEAN  = mean(ATMP_NUM),
-                                                                      WTMP_MEAN  = mean(WTMP_NUM),
-                                                                      DEWP_MEAN  = mean(DEWP_NUM),
-                                                                      VIS_MEAN   = mean(VIS_NUM), 
-                                                                      TIDE_MEAN  = mean(TIDE_NUM))
+  # BUOYS_6HOUR_SUMMARY <- BUOYS_DF %>% 
+  #   group_by(BUOY_ID,MM,DD,BUOYS_QTR) %>% summarise(WDIR_SUM   = sum(WDIR_NUM),
+  #                                                                     WSPD_SUM   = sum(WSPD_NUM),
+  #                                                                     GST_SUM    = sum(GST_NUM), 
+  #                                                                     WVHT_SUM   = sum(WVHT_NUM),
+  #                                                                     DPD_SUM    = sum(DPD_NUM), 
+  #                                                                     APD_SUM    = sum(APD_NUM), 
+  #                                                                     MWD_SUM    = sum(MWD_NUM), 
+  #                                                                     PRES_SUM   = sum(PRES_NUM),
+  #                                                                     ATMP_SUM   = sum(ATMP_NUM),
+  #                                                                     WTMP_SUM   = sum(WTMP_NUM),
+  #                                                                     DEWP_SUM   = sum(DEWP_NUM),
+  #                                                                     VIS_SUM    = sum(VIS_NUM), 
+  #                                                                     TIDE_NUM   = sum(TIDE_NUM),
+  #                                                                     WDIR_MEAN  = mean(WDIR_NUM),
+  #                                                                     WSPD_MEAN  = mean(WSPD_NUM),
+  #                                                                     GST_MEAN   = mean(GST_NUM), 
+  #                                                                     WVHT_MEAN  = mean(WVHT_NUM),
+  #                                                                     DPD_MEAN   = mean(DPD_NUM), 
+  #                                                                     APD_MEAN   = mean(APD_NUM), 
+  #                                                                     MWD_MEAN   = mean(MWD_NUM), 
+  #                                                                     PRES_MEAN  = mean(PRES_NUM),
+  #                                                                     ATMP_MEAN  = mean(ATMP_NUM),
+  #                                                                     WTMP_MEAN  = mean(WTMP_NUM),
+  #                                                                     DEWP_MEAN  = mean(DEWP_NUM),
+  #                                                                     VIS_MEAN   = mean(VIS_NUM), 
+  #                                                                     TIDE_MEAN  = mean(TIDE_NUM))
   
   #Subset down the full buoy data to just the 4 time points that are recorded in the hurr_tracks data
    # Remove buoys that follow a weird reporting schedule
@@ -120,3 +120,15 @@ library(magrittr)
     table(BUOYS_6HOUR_SNAPSHOT$MM,BUOYS_6HOUR_SNAPSHOT$DAY,BUOYS_6HOUR_SNAPSHOT$HOUR )
     
     table(BUOYS_6HOUR_SNAPSHOT$BUOY_ID)
+    
+    
+    #Average wind speed per day/hour. Converted m/s to knots to match the hurricanes data
+    #WSPD	Wind speed (m/s) averaged over an eight-minute period for buoys and a two-minute period 
+    #for land stations. Reported Hourly. See Wind Averaging Methods.
+    
+    BUOYS_AVERAGE<- BUOYS_6HOUR_SNAPSHOT %>% mutate(WSPD_adjusted =WSPD_NUM*1.94 ) %>%
+      group_by(MM,DD,hh) %>% summarise(WSPD_MEAN  = mean(WSPD_adjusted), WSPD_SD  = sd(WSPD_adjusted)) %>% 
+      mutate(date =paste0("2008",MM,DD,hh,"00"))
+    
+    
+    

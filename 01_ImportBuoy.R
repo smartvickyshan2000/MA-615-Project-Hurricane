@@ -130,5 +130,7 @@ library(magrittr)
       group_by(MM,DD,hh) %>% summarise(WSPD_MEAN  = mean(WSPD_adjusted), WSPD_SD  = sd(WSPD_adjusted)) %>% 
       mutate(date =paste0("2008",MM,DD,hh,"00"))
     
+
+    JOIN <- left_join(BUOYS_AVERAGE, Dolly_ht, by = "date")
     
     

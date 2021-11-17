@@ -13,9 +13,15 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+![Hurricane_Dolly](Hurricane Dolly.jpeg)
+\pagebreak
+
+# 1. Introduction
 
 
+# 2. EDA Exploration
 
-## Including Plots
+## 2.1 Task ONE
+
+## 2.2 Task TWO
 

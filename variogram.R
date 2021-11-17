@@ -29,8 +29,7 @@ plot(vm)
 
 #this is all of our point pairs
 
-
-emp <- fit.variogram(v, model=vgm(psill=800, nugget=10, range=9, model="Gau"))  
 v <- variogram(object=wind~1, Dolly_v)
-plot(v, emp, main="Variogram of Wind Speed")
+emp <- fit.variogram(v, model=vgm(psill=800, nugget=10, range=9, model="Gau"))  
 
+plot(v, emp, main="Semivariogram of Wind Speed", pch=20)

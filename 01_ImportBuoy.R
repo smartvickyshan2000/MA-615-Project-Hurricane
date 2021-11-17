@@ -112,21 +112,35 @@ library(magrittr)
   #                                                                     TIDE_MEAN  = mean(TIDE_NUM))
   
   #Subset down the full buoy data to just the 4 time points that are recorded in the hurr_tracks data
-   # Remove buoys that follow a weird reporting schedule
-    BUOYS_6HOUR_SNAPSHOT <- BUOYS_DF %>% filter(HOUR == 6 | HOUR == 12 | HOUR == 18 | HOUR == 00) %>% filter(BUOY_ID !="mqtt2" & BUOY_ID != "ptit2" & BUOY_ID != "rsjt2" & BUOY_ID != "42045")
+    BUOYS_6HOUR_SNAPSHOT <- BUOYS_DF %>% filter(HOUR == 6 | HOUR == 12 | HOUR == 18 | HOUR == 00 )
     
+    
+    BUOYS_6HOUR_SNAPSHOT_mqtt2 <- BUOYS_6HOUR_SNAPSHOT %>% filter(BUOY_ID == "mqtt2" & mm == "00")
+   
+    BUOYS_6HOUR_SNAPSHOT_ptit2 <- BUOYS_6HOUR_SNAPSHOT %>% filter(BUOY_ID == "ptit2" & mm == "06" )
+    
+
+    BUOYS_6HOUR_SNAPSHOT %<>% filter(BUOY_ID !="mqtt2" & BUOY_ID != "ptit2" )
+    
+    BUOYS_6HOUR_SNAPSHOT <- data.frame(rbind(BUOYS_6HOUR_SNAPSHOT,BUOYS_6HOUR_SNAPSHOT_mqtt2,BUOYS_6HOUR_SNAPSHOT_ptit2 ))
+    
+    BUOYS_6HOUR_SNAPSHOT <- BUOYS_6HOUR_SNAPSHOT[,c("BUOY_ID","MM","DD","hh", "WSPD_NUM")] %>% 
+      mutate(WSPD_adjusted =WSPD_NUM*1.94 ) %>% 
+      mutate(date =paste0("2008",MM,DD,hh,"00"))
     
     #Confirm we have the correct month, day,hour combination
-    table(BUOYS_6HOUR_SNAPSHOT$MM,BUOYS_6HOUR_SNAPSHOT$DAY,BUOYS_6HOUR_SNAPSHOT$HOUR )
+    # table(BUOYS_6HOUR_SNAPSHOT$MM,BUOYS_6HOUR_SNAPSHOT$DAY,BUOYS_6HOUR_SNAPSHOT$HOUR ) 
     
     table(BUOYS_6HOUR_SNAPSHOT$BUOY_ID)
+    
+    
     
     
     #Average wind speed per day/hour. Converted m/s to knots to match the hurricanes data
     #WSPD	Wind speed (m/s) averaged over an eight-minute period for buoys and a two-minute period 
     #for land stations. Reported Hourly. See Wind Averaging Methods.
     
-    BUOYS_AVERAGE<- BUOYS_6HOUR_SNAPSHOT %>% mutate(WSPD_adjusted =WSPD_NUM*1.94 ) %>%
+    BUOYS_AVERAGE<- BUOYS_6HOUR_SNAPSHOT %>% 
       group_by(MM,DD,hh) %>% summarise(WSPD_MEAN  = mean(WSPD_adjusted), WSPD_SD  = sd(WSPD_adjusted)) %>% 
       mutate(date =paste0("2008",MM,DD,hh,"00"))
     

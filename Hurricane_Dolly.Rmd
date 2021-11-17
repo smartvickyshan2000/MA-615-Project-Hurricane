@@ -13,9 +13,91 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+```{r, echo = FALSE, include = FALSE}
+source("Attempt_615 Hurricane.R", echo = FALSE)
+```
+
+```{r, include = FALSE}
+library(tidyverse)
+library(maps)
+library(sp)
+library(sf)
+library(leaflet)
+library(htmlwidgets)
+library(drat)
+library(hurricaneexposuredata)
+library(hurricaneexposure)
+data("hurr_tracks")
+```
+
+![Hurricane_Dolly](Hurricane Dolly.jpeg)
+\pagebreak
+
+# 1. Introduction
+
+We used data from NOAA Data Buoys to analyze and describe the landfall of Hurricane Dolly-2008, which we selected from the Hurricane Exposure package.  
+
+- We provided graphs of rainfall, wind speed, and distance feature of Dolly-2008.
+
+- We used more detailed data available from NOAA buoys to desribe Hurricane Dolly's landfall.
 
 
+# 2. EDA Exploration
 
-## Including Plots
+## 2.1 Task ONE: Graphs of rainfall, wind speed, and distance feature of Dolly-2008
+
+### a. Rainfall Map of Dolly-2008
+```{r, echo = FALSE}
+ggplot() +
+  geom_polygon(Dolly_rain_precip,mapping=aes(x=long, y=lat, group=group, fill=`rainfall`),color = "white") + 
+  scale_fill_brewer(palette="Blues")+
+  geom_path(data=Dolly_state, aes(x=long, y=lat, group=group), color="black")+
+  geom_path(data=Dolly_ht, aes(x=longitude, y=latitude), color="red")+
+  ggtitle("Dolly-2008")+
+  theme(
+    panel.background = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    plot.title = element_text(hjust = 0.5,face = "bold")
+  )
+```
+
+### b. Wind Speed Map of Dolly-2008
+
+```{r, echo = FALSE}
+ggplot() +
+  geom_polygon(Dolly_wind_speed,mapping=aes(x=long, y=lat, group=group, fill=`wind_speed`),color = "white") + 
+  scale_fill_brewer(palette="Reds")+
+  geom_path(data=Dolly_state_wind, aes(x=long, y=lat, group=group), color="black")+
+  geom_path(data=Dolly_ht2, aes(x=longitude, y=latitude), color="red")+
+  ggtitle("Dolly-2008")+
+  theme(
+    panel.background = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    plot.title = element_text(hjust = 0.5,face = "bold")
+  )
+```
+
+### c. Distance Map of Dolly-2008
+
+```{r, echo = FALSE}
+ggplot() +
+  geom_polygon(Dolly_distance,mapping=aes(x=long, y=lat, group=group, fill=`distance`),color = "white") + 
+  scale_fill_brewer(palette="Greens")+
+  geom_path(data=Dolly_state_distance, aes(x=long, y=lat, group=group), color="black")+
+  geom_path(data=Dolly_ht, aes(x=longitude, y=latitude), color="red")+
+  ggtitle("Dolly-2008")+
+  theme(
+    panel.background = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    plot.title = element_text(hjust = 0.5,face = "bold")
+  )
+```
+
+## 2.2 Task TWO
 

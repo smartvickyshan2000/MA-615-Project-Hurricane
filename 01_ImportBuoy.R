@@ -23,6 +23,7 @@ library(magrittr)
   buoys <- c('42020', '42045','42002','42055', '42035','ptit2', 'rsjt2', 'babt2', 
              'irdt2', 'mqtt2', 'pact2', 'rcpt2', 'sdrt2', 'pcnt2')
   
+  
   #Create 14 urls
   urls <- str_c(url_half1, buoys, url_half2, sep = "")
 
@@ -133,7 +134,10 @@ library(magrittr)
     
     table(BUOYS_6HOUR_SNAPSHOT$BUOY_ID)
     
+    ##Merge on latitude and longitude
     
+    buoy_lat_long <- read_csv("BUOY_LAT_LONG.csv", col_names = TRUE, col_types = NULL, show_col_types = FALSE)
+    BUOYS_6HOUR_SNAPSHOT <- left_join(BUOYS_6HOUR_SNAPSHOT,buoy_lat_long, by = "BUOY_ID" )
     
     
     #Average wind speed per day/hour. Converted m/s to knots to match the hurricanes data
@@ -146,5 +150,4 @@ library(magrittr)
     
 
     JOIN <- left_join(BUOYS_AVERAGE, Dolly_ht, by = "date")
-    
     

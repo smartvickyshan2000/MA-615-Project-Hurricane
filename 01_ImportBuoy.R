@@ -149,5 +149,10 @@ library(magrittr)
       mutate(date =paste0("2008",MM,DD,hh,"00"))
     
 
-    JOIN <- left_join(BUOYS_AVERAGE, Dolly_ht, by = "date")
+    # JOIN <- left_join(BUOYS_AVERAGE, Dolly_ht, by = "date")
     
+    BUOYS_6HOUR_SNAPSHOT <- BUOYS_6HOUR_SNAPSHOT %>% mutate(long = as.numeric(long), lat = as.numeric(lat)) %>% mutate(long2 = -1*long)
+    
+    
+    BUOYS_6HOUR_SNAPSHOT_AVE <- BUOYS_6HOUR_SNAPSHOT %>% 
+      group_by(BUOY_ID, lat, long2) %>% summarise(WSPD_adjusted_mean = mean(WSPD_adjusted))

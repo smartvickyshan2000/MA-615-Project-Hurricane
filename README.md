@@ -6,7 +6,6 @@
 - Start out by simply validating the Hurricane Exposure data with the data reported by buoys.
     - Pick a hurricane. Visualize it. Find NOAA buoys near the hurricane path.
     - Use ggplot2 to compare the buoy data with the data from the hurricaneexposure package.
-2. When having finished with the hurricane data, do a similar analysis with an Atmospheric River.
 
-3. Come to class ready to discuss what we have done.
+2. Come to class ready to discuss what we have done.
 

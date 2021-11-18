@@ -54,3 +54,5 @@ ggplot(data = Dolly_Buoy2) + geom_point(mapping=aes(x=date, y = wind), color = "
   theme(axis.text.x = element_text(angle = 45, hjust = 1),legend.position = "top") + 
   ylab("Wind Speed") + xlab("Date")  + 
   labs(title = "Comparing Wind Speeds From Buoys and Hurr Tracks", subtitle= "Red = Hurr Tracks")
+
+

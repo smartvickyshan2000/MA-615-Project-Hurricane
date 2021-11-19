@@ -16,6 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, echo = FALSE, include = FALSE,fig.show='hide'}
 source("Attempt_615 Hurricane.R", echo = FALSE)
 source("Buoy_Plots.R",echo = FALSE)
+source("variogram.R",echo = FALSE)
 ```
 
 ```{r, include = FALSE}
@@ -51,7 +52,7 @@ We used data from NOAA Data Buoys to analyze and describe the landfall of Hurric
 
 In this following plot, we can observe that when the hurricane arrive the land, the surrouding rainfall level will increase. Also, due to this reason, the rainfall will also increase at the farthest of the land. 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE,fig.align = 'center'}
 ggplot() +
   geom_polygon(Dolly_rain_precip,mapping=aes(x=long, y=lat, group=group, fill=`rainfall`),color = "white") + 
   scale_fill_brewer(palette="Blues")+
@@ -69,15 +70,14 @@ ggplot() +
 
 ### b. Wind Speed Map of Dolly-2008
 
-In this following plot, we can observe that when the hurricane arrive the land, the surrouding wind level will increase. In constrast, the wind speed of the farthest of the land doesn't change, which means that it doesn't influence by the hurricane. The blue spot is the location of our buyos station. From this plot, we cannot conclude any useful wind speed information from the location of buyos. 
+In this following plot, we can observe that when the hurricane arrive the land, the surrouding wind level will increase. In constrast, the wind speed of the farthest of the land doesn't change, which means that it doesn't influence by the hurricane. In this plot, we don't inlcude any information from buoys. We will talk more about that in the following discussion.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE,fig.align = 'center'}
 ggplot() +
   geom_polygon(Dolly_wind_speed,mapping=aes(x=long, y=lat, group=group, fill=`wind_speed`),color = "white") + 
   scale_fill_brewer(palette="Reds")+
   geom_path(data=Dolly_state_wind, aes(x=long, y=lat, group=group), color="black")+
   geom_path(data=Dolly_ht2, aes(x=longitude, y=latitude), color="red")+
-  geom_point(data = BUOYS_6HOUR_SNAPSHOT, aes(x = long2,y = lat), color = "blue", shape = 10, size = 2)+
   ggtitle("Dolly-2008")+
   theme(
     panel.background = element_blank(),
@@ -90,10 +90,10 @@ ggplot() +
 
 ### c. Distance Map of Dolly-2008
 
-In this following plot, we can observe that the distance between the distance between landfall point and other location. This is a very useful information when we try to discuss the influence of wind during the Dolly period. 
+In this following plot, we can observe that the distance between the distance between landfall point and other location. This is a very useful information when we try to discuss the influence of wind speed during the Dolly period. 
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE,fig.align = 'center'}
 ggplot() +
   geom_polygon(Dolly_distance,mapping=aes(x=long, y=lat, group=group, fill=`distance`),color = "white") + 
   scale_fill_brewer(palette="Greens")+
@@ -112,15 +112,15 @@ ggplot() +
 ## 2.2 Task TWO
 ## a. Wind Speed Map of Dolly - 2008 with Buoys
 
+Combined with our previous wind plot, we combine with information of buoys. Those blue cross are related buoys location. Those buyos can help us to keep track the wind condition where the hurricane landfall. 
 
-```{r, echo = FALSE, warning=FALSE, comment = FALSE}
-
+```{r, echo = FALSE, warning=FALSE, comment = FALSE,fig.align = 'center'}
 ggplot() +
   geom_polygon(Dolly_wind_speed,mapping=aes(x=long, y=lat, group=group, fill=`wind_speed`),color = "white") + 
   scale_fill_brewer(palette="Reds")+
   geom_path(data=Dolly_state_wind, aes(x=long, y=lat, group=group), color="black")+
   geom_path(data=Dolly_ht2, aes(x=longitude, y=latitude), color="red")+
-  geom_point(data = BUOYS_6HOUR_SNAPSHOT_AVE, aes(x = long2,y = lat), color = "blue", shape = 10, size = BUOYS_6HOUR_SNAPSHOT_AVE$WSPD_adjusted_mean)+
+  geom_point(data = BUOYS_6HOUR_SNAPSHOT, aes(x = long2,y = lat), color = "blue", shape = 10, size = 2)+
   ggtitle("Dolly-2008")+
   theme(
     panel.background = element_blank(),
@@ -131,10 +131,11 @@ ggplot() +
   )
 ```
 
-## a. Comparison of Wind Speed Map Recorded by Hurr_Tracks and the Buoys
+## b. Comparison of Wind Speed Map Recorded by Hurr_Tracks and the Buoys
 
+From below plot, red dots represent the original data. Below colorful cross represent data from different buoys. We can obviously observe that wind speed level from buoys data is usually smaller than the actual hurricane data. It is reasonable because our buoys are surrounding the landfall area. Also, hurricane not only have influence to the moving path area but also have influence to surrounding area. Talking about how the distance influence the wind level, the below section can explain well. 
 
-```{r, echo = FALSE, warning=FALSE, comment = FALSE}
+```{r, echo = FALSE, warning=FALSE, comment = FALSE,fig.align = 'center'}
 Dolly_Buoy2 <- inner_join(Dolly_ht2, BUOYS_6HOUR_SNAPSHOT, by =  "date")
 Dolly_Buoy2$BUOY_ID_F <- ifelse(Dolly_Buoy2$BUOY_ID == "rsjt2",2,
                                 ifelse(Dolly_Buoy2$BUOY_ID == "babt2",3,
@@ -152,3 +153,29 @@ ggplot(data = Dolly_Buoy2) + geom_point(mapping=aes(x=date, y = wind), color = "
 
 ```
 
+c. Variogram of wind level and rain 
+
+
+This is a semivariogram that shows that generally as distance between points in the Hurr tracks dataset increases, the difference in their maximum sustained wind speed also increases, indicating a possible spatial relationship. Extrapolating from this plot further is difficult because the data violates the stationarity assumption required for kriging, which states that different regions contained in the data cannot have their outcome values changing at different rates than others, and a hurricane that moves around a region means that change is occurring at different rates depending on where it is at a given moment. 
+
+```{r, echo = FALSE, warning=FALSE, comment = FALSE,fig.align = 'center'}
+plot(v, emp, main="Semivariogram of 1 min Max Wind Speed (Hurr_Tracks Data)", pch=20,color="red")
+```
+
+This semivariogram does not have a traditional pattern like in the first example, the observed nugget value is high, indicating that there is a lot of noise in the data, and we can not say if there is a possible spatial relationship between buoy distance and average weed speed. 
+
+```{r,echo = FALSE, warning=FALSE, comment = FALSE,fig.align = 'center'}
+plot(v2, emp2, main="Semivariogram of Average Wind Speed (Buoy Data)", pch=20,color="blue")
+
+```
+
+
+This is a semivariogram that shows that generally as distance between points in the Hurr tracks dataset increases, the difference in their maximum sustained rainfall also increases, indicating a possible spatial relationship. This is no related rainfall information in Buoys information. 
+
+```{r,echo = FALSE, warning=FALSE, comment = FALSE,fig.align = 'center'}
+plot(v_rain, emp_rain, main="Semivariogram of daily rainfall given 5 days before and 3 days after ", pch=20,color="red")
+
+```
+
+
+# Conclusion

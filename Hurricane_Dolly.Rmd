@@ -166,20 +166,20 @@ source("variogram.R",echo = FALSE)
 This is a semivariogram that shows that generally as distance between points in the Hurr tracks dataset increases, the difference in their maximum sustained wind speed also increases, indicating a possible spatial relationship. Extrapolating from this plot further is difficult because the data violates the stationarity assumption required for kriging, which states that different regions contained in the data cannot have their outcome values changing at different rates than others, and a hurricane that moves around a region means that change is occurring at different rates depending on where it is at a given moment. 
 
 ```{r, echo = FALSE, warning=FALSE, comment = FALSE,fig.align = 'center'}
-plot(v, emp, main="Semivariogram of 1 min Max Wind Speed (Hurr_Tracks Data)", pch=20,color="red")
+plot(v, emp, main="Semivariogram of 1 min Max Wind Speed (Hurr_Tracks Data)", pch=20,col="red")
 ```
 
 This semivariogram does not have a traditional pattern like in the first example, the observed nugget value is high, indicating that there is a lot of noise in the data, and we can not say if there is a possible spatial relationship between buoy distance and average weed speed. 
 
 ```{r,echo = FALSE, warning=FALSE, comment = FALSE,fig.align = 'center'}
-plot(v2, emp2, main="Semivariogram of Average Wind Speed (Buoy Data)", pch=20,color="blue")
+plot(v2, emp2, main="Semivariogram of Average Wind Speed (Buoy Data)", pch=20,col="blue")
 
 ```
 
-This is a semivariogram that shows that generally as distance between points in the Hurr tracks dataset increases, the difference in their maximum sustained rainfall also increases, indicating a possible spatial relationship. This is no related rainfall information in Buoys information. 
+This is a semivariogram that shows that generally as distance between points in the rain dataset increases, the difference in their maximum sustained rainfall also increases, indicating a possible spatial relationship. This is no related rainfall information in Buoys information. 
 
 ```{r,echo = FALSE, warning=FALSE, comment = FALSE,fig.align = 'center'}
-plot(v_rain, emp_rain, main="Semivariogram of daily rainfall given 5 days before and 3 days after ", pch=20,color="red")
+plot(v_rain, emp_rain, main="Semivariogram of daily rainfall given 5 days before and 3 days after ", pch=20,col="red")
 
 ```
 

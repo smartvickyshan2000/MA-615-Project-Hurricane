@@ -1,5 +1,6 @@
 # MA-615-Project-Hurricane
 Team member: Ada Yu, Carolyn Wright, Rachel Donahue, Vicky Shan
+
 Hurricane: Dolly-2008
 
 ## Use data from NOAA Data Buoys to analyze and describe the landfall of Hurricane Dolly-2008.

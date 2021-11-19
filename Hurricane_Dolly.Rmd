@@ -15,8 +15,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r, echo = FALSE, include = FALSE,fig.show='hide'}
 source("Attempt_615 Hurricane.R", echo = FALSE)
-source("Buoy_Plots.R",echo = FALSE)
-source("variogram.R",echo = FALSE)
 ```
 
 ```{r, include = FALSE}
@@ -35,7 +33,7 @@ data("hurr_tracks")
 <center>![Hurricane_Dolly](Hurricane Dolly.jpeg){width=50%}</center>
 \pagebreak
 
-# 1. Introduction
+## 1. Introduction
 
 We used data from NOAA Data Buoys to analyze and describe the landfall of Hurricane Dolly-2008, which we selected from the Hurricane Exposure package.  
 
@@ -44,9 +42,9 @@ We used data from NOAA Data Buoys to analyze and describe the landfall of Hurric
 - We used more detailed data available from NOAA buoys to desribe Hurricane Dolly's landfall.
 
 
-# 2. EDA Exploration
+## 2. EDA Exploration
 
-## 2.1 Task ONE: Graphs of rainfall, wind speed, and distance feature of Dolly-2008
+# 2.1 Task ONE: Graphs of rainfall, wind speed, and distance feature of Dolly-2008
 
 ### a. Rainfall Map of Dolly-2008
 
@@ -112,9 +110,12 @@ ggplot() +
   )
 ```
 
-## 2.2 Task TWO
-## a. Wind Speed Map of Dolly - 2008 with Buoys
+# 2.2 Task TWO
+### a. Wind Speed Map of Dolly - 2008 with Buoys
 
+```{r, echo = FALSE, include = FALSE,fig.show='hide'}
+source("Buoy_Plots.R",echo = FALSE)
+```
 
 The following plot shows a map of Hurricane Dolly's maximum modeled gust wind speed by county during the storm. We have plotted the Buoys over this map with their size differing by average windspeed. The larger the size the higher the average windfall for that buoy during the time of Hurricane Dolly. Note: The buoy windspeed measurements were converted from m/s to knots in order to match the scale of the Hurricane Tracks data.
 
@@ -137,7 +138,7 @@ ggplot() +
 
 ```
 
-## b. Comparison of Wind Speed Map Recorded by Hurr_Tracks and the Buoys
+### b. Comparison of Wind Speed Map Recorded by Hurr_Tracks and the Buoys
 
 
 The following plot compares the Wind Speed recorded in the hurr_tracks data with the buoy wind measurements over time. Based on the below plot it appears that the buoys are measuring a much lower windspeed overall, however are following a similar pattern
@@ -160,8 +161,11 @@ ggplot(data = Dolly_Buoy2) + geom_point(mapping=aes(x=date, y = wind), color = "
 
 ```
 
-c. Variogram of wind level and rain 
+### c. Variogram of wind level and rain 
 
+```{r, echo = FALSE, include = FALSE,fig.show='hide'}
+source("variogram.R",echo = FALSE)
+```
 
 This is a semivariogram that shows that generally as distance between points in the Hurr tracks dataset increases, the difference in their maximum sustained wind speed also increases, indicating a possible spatial relationship. Extrapolating from this plot further is difficult because the data violates the stationarity assumption required for kriging, which states that different regions contained in the data cannot have their outcome values changing at different rates than others, and a hurricane that moves around a region means that change is occurring at different rates depending on where it is at a given moment. 
 

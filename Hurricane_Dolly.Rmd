@@ -135,7 +135,7 @@ ggplot() +
 
 ```
 
-### b. Comparison of Wind Speed Map Recorded by Hurr_Tracks and the Buoys
+### b. Comparison of Wind Speed Map Recorded by Hurr_Tracks and the Buoys - Part 1
 
 The following plot compares the Wind Speed recorded in the hurr_tracks data with the buoy wind measurements over time. Based on the below plot it appears that the buoys are measuring a much lower windspeed overall, however are following a similar pattern
 
@@ -156,6 +156,24 @@ ggplot(data = Dolly_Buoy2) + geom_point(mapping=aes(x=date, y = wind), color = "
   labs(title = "Comparing Wind Speeds From Buoys and Hurr Tracks", subtitle= "Red = Hurr Tracks")
 
 ```
+
+### c. Comparison of Wind Speed Map Recorded by Hurr_Tracks and the Buoys - Part 2
+
+The next plot digs a bit deeper into the comparison between the buoy wind speed and the hurr_tracks recorded wind speed. The below plot shows the average wind speed across buoys for each day, along with the line markers denoting the value of 2 standard deviations away from that average. As one can see from this plot, most of the hurr_tracks wind speeds do not even fall within 2 standard deviations of what was recorded across all buoys.
+
+```{r, echo = FALSE, warning=FALSE, comment = FALSE,fig.align = 'center'}
+Dolly_Buoy <- inner_join(Dolly_ht2, BUOYS_AVERAGE, by =  "date")
+Dolly_Buoy %<>% mutate(upper = WSPD_MEAN+(2*WSPD_SD), lower = WSPD_MEAN-(2*WSPD_SD))
+
+ggplot(data = Dolly_Buoy) + geom_point(mapping=aes(x=date, y = wind), color = "red", shape= 10) +
+  geom_point(mapping= aes(date, y = WSPD_MEAN), color = "blue", shape= 10) +
+  geom_point(mapping=aes(date, y = upper), color = "blue", shape =95, size = 3) +
+  geom_point(mapping=aes(date, y = lower), color = "blue", shape =95, size = 3) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  ylab("Wind Speed") + xlab("Date")  + 
+  labs(title = "Comparing Wind Speeds From Buoys and Hurr Tracks", subtitle= "Red = Hurr Tracks, Blue = Average across buoys")
+```
+
 
 ### c. Variogram of wind level and rain 
 

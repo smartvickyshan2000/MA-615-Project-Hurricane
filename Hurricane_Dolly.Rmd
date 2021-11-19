@@ -32,7 +32,7 @@ library(hurricaneexposure)
 data("hurr_tracks")
 ```
 
-![Hurricane_Dolly](Hurricane Dolly.jpeg)
+<center>![Hurricane_Dolly](Hurricane Dolly.jpeg){width=50%}</center>
 \pagebreak
 
 # 1. Introduction
@@ -50,7 +50,7 @@ We used data from NOAA Data Buoys to analyze and describe the landfall of Hurric
 
 ### a. Rainfall Map of Dolly-2008
 
-In this following plot, we can observe that when the hurricane arrive the land, the surrouding rainfall level will increase. Also, due to this reason, the rainfall will also increase at the farthest of the land. 
+In this following plot, we observe that when the hurricane makes landfall, the surrounding rainfall level will increase. Also, due to this reason, the rainfall will also increase at the farthest of the land. 
 
 ```{r, echo = FALSE,fig.align = 'center'}
 ggplot() +
@@ -70,7 +70,11 @@ ggplot() +
 
 ### b. Wind Speed Map of Dolly-2008
 
+<<<<<<< HEAD
 In this following plot, we can observe that when the hurricane arrive the land, the surrouding wind level will increase. In constrast, the wind speed of the farthest of the land doesn't change, which means that it doesn't influence by the hurricane. In this plot, we don't inlcude any information from buoys. We will talk more about that in the following discussion.
+=======
+In the following plot, we observe that when the hurricane makes landfall, the  maximum modeled gust wind speed in the surrounding counties will increase. In contrast, the wind speed of the farthest of the land doesn't change, which means that it is not influenced by the hurricane. The blue points are the locations of the 14 buoys we selected to look into. From this plot, we cannot conclude any useful wind speed information from the location of buoys. 
+>>>>>>> da3cdde0245b1ff89eac87fcc04a37fa67e560fb
 
 ```{r, echo = FALSE,fig.align = 'center'}
 ggplot() +
@@ -90,7 +94,11 @@ ggplot() +
 
 ### c. Distance Map of Dolly-2008
 
+<<<<<<< HEAD
 In this following plot, we can observe that the distance between the distance between landfall point and other location. This is a very useful information when we try to discuss the influence of wind speed during the Dolly period. 
+=======
+In the following plot, we observe the distance between landfall point and other areas of the country. This is a very useful information when discussing the influence of wind during the duration of Hurricane Dolly. 
+>>>>>>> da3cdde0245b1ff89eac87fcc04a37fa67e560fb
 
 
 ```{r, echo = FALSE,fig.align = 'center'}
@@ -112,7 +120,11 @@ ggplot() +
 ## 2.2 Task TWO
 ## a. Wind Speed Map of Dolly - 2008 with Buoys
 
+<<<<<<< HEAD
 Combined with our previous wind plot, we combine with information of buoys. Those blue cross are related buoys location. Those buyos can help us to keep track the wind condition where the hurricane landfall. 
+=======
+The following plot shows a map of Hurricane Dolly's maximum modeled gust wind speed by county during the storm. We have plotted the Buoys over this map with their size differing by average windspeed. The larger the size the higher the average windfall for that buoy during the time of Hurricane Dolly. Note: The buoy windspeed measurements were converted from m/s to knots in order to match the scale of the Hurricane Tracks data.
+>>>>>>> da3cdde0245b1ff89eac87fcc04a37fa67e560fb
 
 ```{r, echo = FALSE, warning=FALSE, comment = FALSE,fig.align = 'center'}
 ggplot() +
@@ -129,11 +141,17 @@ ggplot() +
     axis.title = element_blank(),
     plot.title = element_text(hjust = 0.5,face = "bold")
   )
+
+
 ```
 
 ## b. Comparison of Wind Speed Map Recorded by Hurr_Tracks and the Buoys
 
+<<<<<<< HEAD
 From below plot, red dots represent the original data. Below colorful cross represent data from different buoys. We can obviously observe that wind speed level from buoys data is usually smaller than the actual hurricane data. It is reasonable because our buoys are surrounding the landfall area. Also, hurricane not only have influence to the moving path area but also have influence to surrounding area. Talking about how the distance influence the wind level, the below section can explain well. 
+=======
+The following plot compares the Wind Speed recorded in the hurr_tracks data with the buoy wind measurements over time. Based on the below plot it appears that the buoys are measuring a much lower windspeed overall, however are following a similar pattern
+>>>>>>> da3cdde0245b1ff89eac87fcc04a37fa67e560fb
 
 ```{r, echo = FALSE, warning=FALSE, comment = FALSE,fig.align = 'center'}
 Dolly_Buoy2 <- inner_join(Dolly_ht2, BUOYS_6HOUR_SNAPSHOT, by =  "date")

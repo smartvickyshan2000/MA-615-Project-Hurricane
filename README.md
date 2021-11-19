@@ -9,10 +9,7 @@ Hurricane: Dolly-2008
 - Attempt a variogram
 
 ## Important files
-- Hurricane_Dolly.Rmd: 
-   The code used to create the deliverable
-- Hurricane_Dolly.html: 
-   A single electronic deliverable
-- Attempt_615 Hurricane.R + Buoy_Plots.R + variogram.R:
-   Data files used to create the deliverable
+- Hurricane_Dolly.html: A single electronic deliverable
+- Hurricane_Dolly.Rmd: The code used to create the deliverable
+- Attempt_615 Hurricane.R / Buoy_Plots.R / variogram.R: Data files used to create the deliverable
 

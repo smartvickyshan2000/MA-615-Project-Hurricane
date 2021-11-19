@@ -33,7 +33,7 @@ data("hurr_tracks")
 <center>![Hurricane_Dolly](Hurricane Dolly.jpeg){width=50%}</center>
 \pagebreak
 
-## 1. Introduction
+# 1. Introduction
 
 We used data from NOAA Data Buoys to analyze and describe the landfall of Hurricane Dolly-2008, which we selected from the Hurricane Exposure package.  
 
@@ -42,9 +42,9 @@ We used data from NOAA Data Buoys to analyze and describe the landfall of Hurric
 - We used more detailed data available from NOAA buoys to desribe Hurricane Dolly's landfall.
 
 
-## 2. EDA Exploration
+# 2. EDA Exploration  
 
-# 2.1 Task ONE: Graphs of rainfall, wind speed, and distance feature of Dolly-2008
+## 2.1 Task ONE: Graphs of rainfall, wind speed, and distance feature of Dolly-2008
 
 ### a. Rainfall Map of Dolly-2008
 
@@ -68,7 +68,6 @@ ggplot() +
 
 ### b. Wind Speed Map of Dolly-2008
 
-
 In the following plot, we observe that when the hurricane makes landfall, the  maximum modeled gust wind speed in the surrounding counties will increase. In contrast, the wind speed of the farthest of the land doesn't change, which means that it is not influenced by the hurricane. The blue points are the locations of the 14 buoys we selected to look into. From this plot, we cannot conclude any useful wind speed information from the location of buoys. 
 
 ```{r, echo = FALSE,fig.align = 'center'}
@@ -89,10 +88,7 @@ ggplot() +
 
 ### c. Distance Map of Dolly-2008
 
-<<<<<<< HEAD
-
 In the following plot, we observe the distance between landfall point and other areas of the country. This is a very useful information when discussing the influence of wind during the duration of Hurricane Dolly. 
-
 
 ```{r, echo = FALSE,fig.align = 'center'}
 ggplot() +
@@ -110,7 +106,8 @@ ggplot() +
   )
 ```
 
-# 2.2 Task TWO
+## 2.2 Task TWO
+
 ### a. Wind Speed Map of Dolly - 2008 with Buoys
 
 ```{r, echo = FALSE, include = FALSE,fig.show='hide'}
@@ -139,7 +136,6 @@ ggplot() +
 ```
 
 ### b. Comparison of Wind Speed Map Recorded by Hurr_Tracks and the Buoys
-
 
 The following plot compares the Wind Speed recorded in the hurr_tracks data with the buoy wind measurements over time. Based on the below plot it appears that the buoys are measuring a much lower windspeed overall, however are following a similar pattern
 
@@ -180,7 +176,6 @@ plot(v2, emp2, main="Semivariogram of Average Wind Speed (Buoy Data)", pch=20,co
 
 ```
 
-
 This is a semivariogram that shows that generally as distance between points in the Hurr tracks dataset increases, the difference in their maximum sustained rainfall also increases, indicating a possible spatial relationship. This is no related rainfall information in Buoys information. 
 
 ```{r,echo = FALSE, warning=FALSE, comment = FALSE,fig.align = 'center'}
@@ -188,5 +183,10 @@ plot(v_rain, emp_rain, main="Semivariogram of daily rainfall given 5 days before
 
 ```
 
+# Reference
+
+https://www.ndbc.noaa.gov/
+
+https://www.nasa.gov/mission_pages/hurricanes/archives/2008/h2008_dolly.html
 
 # Conclusion

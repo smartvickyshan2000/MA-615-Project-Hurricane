@@ -229,5 +229,3 @@ plot(v_rain, emp_rain, main="Semivariogram of daily rainfall given 5 days before
 https://www.ndbc.noaa.gov/
 
 https://www.nasa.gov/mission_pages/hurricanes/archives/2008/h2008_dolly.html
-
-# Conclusion

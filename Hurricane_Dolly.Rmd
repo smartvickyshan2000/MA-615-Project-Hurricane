@@ -25,6 +25,7 @@ library(sf)
 library(leaflet)
 library(htmlwidgets)
 library(drat)
+library(plotly)
 library(hurricaneexposuredata)
 library(hurricaneexposure)
 data("hurr_tracks")
@@ -65,6 +66,16 @@ ggplot() +
     plot.title = element_text(hjust = 0.5,face = "bold")
   )
 ```
+
+In the following plot, we re-visualize in 3D format. We obtain the same rainfall information as 2D graphic plot. 
+
+```{r eval=knitr::is_html_output(), echo=FALSE,warning=FALSE, comment = FALSE,fig.align = 'center'}
+Dolly_rain_precip %>%
+  plot_ly() %>%
+  add_trace(x=~long,y=~lat,z=~rainfall,type="mesh3d")
+```
+
+
 
 ### b. Wind Speed Map of Dolly-2008
 
@@ -174,6 +185,17 @@ ggplot(data = Dolly_Buoy) + geom_point(mapping=aes(x=date, y = wind), color = "r
   labs(title = "Comparing Wind Speeds From Buoys and Hurr Tracks", subtitle= "Red = Hurr Tracks, Blue = Average across buoys")
 ```
 
+Moreover, we visualize above plot along with longitude and latitude. Blue surface represents wind speeds with specific longitude and latitude from hurr_tracks. Red dots represents wind speed across buoys for each day. Hurr_tracks wind speed are always higher than that of buoys wind speeds. 
+
+```{r, echo = FALSE, warning=FALSE, comment = FALSE,fig.align = 'center'}
+library(plotly)
+library(tidyverse)
+Dolly_Buoy2 %>% 
+  plot_ly() %>%
+  add_trace(x=~longitude,y=~latitude,z=~wind,type="mesh3d") %>%
+  add_trace(x = ~long2, y = ~lat, z = ~WSPD_adjusted, mode = "markers", type = "scatter3d", 
+            marker = list(size = 5, color = "red", symbol = 104))
+```
 
 ### c. Variogram of wind level and rain 
 
@@ -200,6 +222,7 @@ This is a semivariogram that shows that generally as distance between points in 
 plot(v_rain, emp_rain, main="Semivariogram of daily rainfall given 5 days before and 3 days after ", pch=20,col="red")
 
 ```
+
 
 # Reference
 
